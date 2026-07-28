@@ -1,0 +1,4 @@
+fastmcp
+httpx
+x402
+eth-account
