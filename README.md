@@ -78,7 +78,8 @@ To install this server for Claude Desktop, add the following to your claude_desk
 
 # Author
 
-Kunal Das Building the financial layer for the agentic web.
+Kunal Das 
+(Building the financial layer for the agentic web.)
 
 # License
 
