@@ -1,8 +1,9 @@
 # agentic-compute-mcp
 
 ## Agentic API Platform: MCP Bridge
+```bash
 mcp-name: io.github.codelad1304/agentic-compute
-
+```
 A high-performance Model Context Protocol (MCP) server providing premium computational services to autonomous AI agents. This bridge connects Claude and other MCP-compatible LLMs to secure, cloud-hosted endpoints for advanced mathematical optimization and data visualization.
 
 Built with FastMCP and FastAPI, this system leverages the x402 protocol for automated Machine-to-Machine (M2M) microtransactions on the Base network (USDC settlement).
