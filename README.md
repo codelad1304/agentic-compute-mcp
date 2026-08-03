@@ -1,5 +1,7 @@
-# agentic-compute-mcp
+agentic-compute-mcp
+
 # Agentic API Platform: MCP Bridge
+<!-- mcp-name: io.github.codelad1304/agentic-compute -->
 
 A high-performance Model Context Protocol (MCP) server providing premium computational services to autonomous AI agents. This bridge connects Claude and other MCP-compatible LLMs to secure, cloud-hosted endpoints for advanced mathematical optimization and data visualization.
 
@@ -17,7 +19,19 @@ Bypass LLM UI Limits: Overcomes LLM token limits by processing massive data stru
 
 This MCP server currently exposes the following premium tools to AI agents:
 
-1. optimize_ga (Cost: 0.50 USDC)
+1. execute_code (Cost: 0.10 USDC)
+
+Executes arbitrary, agent-generated Python code in a highly secure, isolated remote Azure sandbox.
+
+Capabilities: Protects the host machine from untrusted code execution while returning standard output (stdout) and standard error (stderr) directly to the agent.
+
+2. sanitize_csv (Cost: 0.25 USDC)
+
+Cleans and normalizes raw, unstructured CSV data into strict JSON arrays.
+
+Capabilities: Automatically normalizes headers, handles null values, and drops empty rows, preparing messy data for immediate mathematical modeling.
+
+3. optimize_ga (Cost: 0.50 USDC)
 
 Runs a high-performance Genetic Algorithm (GA) to optimize data models (Polynomial, Logistic, Exponential).
 
@@ -25,60 +39,48 @@ Capabilities: Smart parameter initialization, proportional mutation to prevent p
 
 Ideal for: Load forecasting, predictive modeling, and complex hyperparameter tuning.
 
-2. generate_plot (Cost: 0.30 USDC)
+4. generate_plot (Cost: 0.30 USDC)
 
 A Matplotlib-based rendering engine that generates production-ready charts and graphs.
 
-Capabilities: Bypasses LLM token generation limits by natively drawing data and returning lightweight reference pointers or base64 streams directly to the host machine.
+Capabilities: Bypasses LLM token generation limits by natively drawing data and returning lightweight base64 image streams directly to the host machine.
 
 Ideal for: Visualizing optimization results, time-series data, and mathematical models.
 
 # Installation & Setup
 
-1. Clone the repository:
+1. Install via PyPI:
 
-git clone https://github.com/codelad1304/agentic-compute-mcp.git
-cd agentic-compute-mcp
-
+'''pip install agentic-compute-mcp'''
 
 
-2. Install dependencies:
+2. Configure Environment Variables:
+Create a .env file or export the following variable in your terminal to allow your local MCP client to process agentic payments:
 
-pip install -r requirements.txt
-
-
-
-3. Configure Environment Variables:
-Create a .env file in the root directory and add your EVM credentials to allow your local MCP client to process agentic payments:
-
-EVM_PRIVATE_KEY=your_private_key
-
-
-
-4. Start the MCP Bridge:
-
-python mcp_client.py
-
+'''export EVM_PRIVATE_KEY=your_private_key_here'''
 
 
 # Using with Claude Desktop
 
 To install this server for Claude Desktop, add the following to your claude_desktop_config.json:
 
-{
-  "mcpServers": {
-    "agentic-compute": {
-      "command": "python",
-      "args": ["/absolute/path/to/agentic-compute-mcp/mcp_client.py"]
+'''{
+     "mcpServers": {
+       "agentic-compute": {
+         "command": "agentic-compute-mcp",
+         "args": [],
+         "env": {
+           "EVM_PRIVATE_KEY": "your_private_key_here"
+      }
     }
   }
-}
-
+}'''
 
 
 # Author
 
-Kunal Das 
+Kunal Das
+
 (Building the financial layer for the agentic web.)
 
 # License
