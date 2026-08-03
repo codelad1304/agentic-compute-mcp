@@ -85,4 +85,6 @@ export EVM_PRIVATE_KEY=your_private_key_here
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+```bash
 mcp-name: io.github.codelad1304/agentic-compute
+```
