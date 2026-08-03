@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.codelad1304/agentic-compute",
-  "description": "A secure, monetized Python sandbox for data optimization and Matplotlib rendering via the x402 protocol.",
+  "description": "Secure Python sandbox for data optimization and Matplotlib rendering via x402 microtransactions.",
   "repository": 
   {
    "url": "https://github.com/codelad1304/agentic-compute-mcp",
