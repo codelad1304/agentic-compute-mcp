@@ -2,8 +2,6 @@ import os
 import httpx
 from typing import List
 from fastmcp import FastMCP
-
-# Core x402 & Web3 Imports moved to the global level
 from eth_account import Account
 from x402 import x402Client
 from x402.http.clients.httpx import x402HttpxClient
@@ -11,10 +9,11 @@ from x402.mechanisms.evm import EthAccountSigner
 from x402.mechanisms.evm.exact.register import register_exact_evm_client
 
 mcp = FastMCP("Agentic Compute Sandbox API")
-private_key = os.getenv("EVM_PRIVATE_KEY")
 
 async def make_request(url: str, payload: dict, cost: str, timeout: float = 60.0) -> str:
     """Helper function to handle x402 crypto payments or surface 402 errors to the agent."""
+    private_key = os.getenv("EVM_PRIVATE_KEY")
+    
     if private_key:
         try:
             account = Account.from_key(private_key)
@@ -79,5 +78,9 @@ async def generate_plot_securely(x: List[float], y: List[float], title: str = "D
         cost="0.30"
     )
 
-if __name__ == "__main__":
+def main():
+    """Entry point for the PyPI package script."""
     mcp.run()
+
+if __name__ == "__main__":
+    main()

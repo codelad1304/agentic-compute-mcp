@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentic-compute-mcp"
+version = "1.0.0"
+description = "A secure, monetized Python sandbox for data optimization and Matplotlib rendering via x402."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+{ name = "Kunal Das" }
+]
+dependencies = [
+"fastmcp",
+"httpx",
+"x402",
+"eth-account"
+]
+
+[tool.setuptools]
+py-modules = ["mcp_client"]
+
+[project.scripts]
+agentic-compute-mcp = "mcp_client:main"
