@@ -52,7 +52,7 @@ This MCP server currently exposes the following premium tools to AI agents:
 1. **Install via PyPI**:
 
 ```bash
-pip install agentic-compute-mcp
+pip install agentic-compute-mcp-codelad1304
 ```
 
 
