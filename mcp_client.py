@@ -58,15 +58,31 @@ async def sanitize_csv_securely(csv_content: str) -> str:
         payload={"csv_content": csv_content},
         cost="0.25"
     )
+from typing import List, Literal
 
+ModelType = Literal["polynomial", "exponential", "logistic"]
 @mcp.tool()
-async def optimize_ga_securely(actuals: List[float], generations: int = 200, model_type: str = "polynomial") -> str:
-    """Executes a Genetic Algorithm in the remote Azure sandbox to minimize MAPE. model_type can be 'polynomial', 'exponential', or 'logistic'."""
+async def optimize_ga_securely(
+    actuals: List[float], 
+    generations: int = 200, 
+    model_type: ModelType = "polynomial"
+) -> str:
+    """Executes a Genetic Algorithm in the remote Azure sandbox to minimize MAPE.
+
+    Args:
+        actuals: Sequence of ground-truth target values to optimize against.
+        generations: Number of GA iterations/generations to run (default: 200).
+        model_type: Optimization curve model ('polynomial', 'exponential', or 'logistic').
+    """
     return await make_request(
         url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/optimize-ga",
-        payload={"actuals": actuals, "generations": generations, "model_type": model_type},
+        payload={
+            "actuals": actuals,
+            "generations": generations,
+            "model_type": model_type,
+        },
         cost="0.50",
-        timeout=120.0
+        timeout=120.0,
     )
 
 @mcp.tool()
