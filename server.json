@@ -7,13 +7,13 @@
    "url": "https://github.com/codelad1304/agentic-compute-mcp",
    "source": "github"
   },
-  "version": "1.0.0",
+  "version": "1.0.9",
   "packages": 
   [
    {
      "registryType": "pypi",
      "identifier": "agentic-compute-mcp-codelad1304",
-     "version": "1.0.0",
+     "version": "1.0.9",
      "transport": 
      {
        "type": "stdio"
