@@ -9,14 +9,19 @@ description = "A secure, monetized Python sandbox for data optimization and Matp
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
-{ name = "Kunal Das" }
+    { name = "Kunal Das" }
 ]
+keywords = ["mcp", "mcp-server", "ai-agents", "x402", "fastmcp", "llm-tools", "sandbox", "crypto"]
 dependencies = [
-"fastmcp",
-"httpx",
-"x402",
-"eth-account"
+    "fastmcp",
+    "httpx",
+    "x402",
+    "eth-account"
 ]
+
+[project.urls]
+Homepage = "https://github.com/codelad1304/agentic-compute-mcp"
+Repository = "https://github.com/codelad1304/agentic-compute-mcp"
 
 [tool.setuptools]
 py-modules = ["mcp_client"]
