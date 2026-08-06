@@ -98,10 +98,21 @@ async def optimize_ga_securely(
 
 @mcp.tool()
 async def generate_plot_securely(x: List[float], y: List[float], title: str = "Data Plot", chart_type: str = "line", x_label: str = "X", y_label: str = "Y") -> str:
-    """Generates a visual chart from data points.
-    Use this tool to visualize data without hitting token generation limits or requiring a local GUI.
-    Returns a Base64 encoded PNG image string.
-    Cost: 0.30 USDC per call.
+    """
+    Generate line or scatter charts from x and y data in an isolated Azure sandbox, enabling secure remote data visualization for AI agents.
+
+    Use this tool to visually represent numerical trends. Keep data arrays under 10,000 points to prevent sandbox timeouts.
+
+    Args:
+        x: A list of numerical values for the X-axis. Must be the exact same length as y.
+        y: A list of numerical values for the Y-axis. Must be the exact same length as x.
+        title: The text string to display at the top of the chart.
+        x_label: The text string to label the X-axis.
+        y_label: The text string to label the Y-axis.
+        chart_type: The visual style of the chart. Must be exactly 'line' or 'scatter'.
+
+    Returns:
+        A base64 encoded string of the generated PNG image.
     """
     return await make_request(
         url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/generate-plot",
