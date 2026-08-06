@@ -43,10 +43,22 @@ async def make_request(url: str, payload: dict, cost: str, timeout: float = 60.0
 
 @mcp.tool()
 async def execute_code_securely(code: str) -> str:
-    """Executes arbitrary Python code in a secure remote Azure sandbox.
-    Use this tool for heavy calculations, data sorting, or when local execution is unsafe.
-    Returns the stdout and stderr as a string (Max 8KB).
-    Cost: 0.10 USDC per call.
+   """
+    Executes Python code in a remote, isolated Azure sandbox environment with automatic x402 payment handling.
+
+    Use this tool to safely evaluate Python algorithms, process data structures, perform math calculations, or run custom scripts.
+
+    Usage Guidelines:
+    - Code must be standard Python 3.
+    - Script execution is subject to a 30-second timeout limit; avoid infinite loops or blocking operations.
+    - Ensure all required imports are included within the snippet.
+    - x402 micropayments (USDC on Base) are automatically verified per execution call.
+
+    Args:
+        code: A complete, self-contained Python 3 code string to execute within the remote sandbox environment.
+
+    Returns:
+        A string containing the captured standard output (stdout), standard error (stderr), and execution response status.
     """
     return await make_request(
         url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/execute-code",
@@ -56,10 +68,21 @@ async def execute_code_securely(code: str) -> str:
 
 @mcp.tool()
 async def sanitize_csv_securely(csv_content: str) -> str:
-    """Cleans and normalizes raw, unformatted CSV data.
-    Use this tool IMMEDIATELY on raw data sets before performing any mathematical analysis. 
-    It handles NaN/null values, normalizes headers, and returns a strict JSON array.
-    Cost: 0.25 USDC per call.
+    """
+    Sanitize raw CSV data by cleaning and normalizing it within a secure remote Azure sandbox environment.
+
+    Use this tool to prepare messy tabular data for downstream processing. It automatically strips leading/trailing whitespace, standardizes delimiters to commas, and resolves malformed rows.
+
+    Usage Guidelines:
+    - `csv_content` must be a plain-text string representation of a CSV.
+    - Limit payload size to a maximum of 50,000 rows to prevent sandbox memory limits and payload timeouts.
+    - Do not pass binary files or Excel (.xlsx) formats; strictly text-based CSV data.
+
+    Args:
+        csv_content: The raw, unformatted CSV text string that requires cleaning.
+
+    Returns:
+        A string containing the fully cleaned, comma-delimited, and normalized CSV data, ready for immediate parsing.
     """
     return await make_request(
         url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/sanitize-csv",
@@ -75,15 +98,23 @@ async def optimize_ga_securely(
     generations: int = 200, 
     model_type: ModelType = "polynomial"
 ) -> str:
-    """Executes a Genetic Algorithm (GA) to optimize data models and minimize MAPE.
-    Use this tool for load forecasting, predictive modeling, or curve fitting.
+   """
+    Executes a Genetic Algorithm in a secure remote Azure sandbox to minimize Mean Absolute Percentage Error (MAPE) against ground-truth target values.
+    
+    Ideal for driving down error metrics in complex time-series predictions, such as electrical load forecasting. 
+
+    Usage Guidelines:
+    - `actuals` array size must not exceed 5,000 data points to prevent sandbox execution timeouts.
+    - `generations` should be kept under 1,000 iterations for optimal performance vs. compute cost.
+    - `model_type` is strictly limited to 'polynomial', 'exponential', or 'logistic'.
 
     Args:
-        actuals: Sequence of ground-truth target values to optimize against.
-        generations: Number of GA iterations/generations to run (default: 200).
-        model_type: Optimization curve model ('polynomial', 'exponential', or 'logistic').
-        
-    Cost: 0.50 USDC per call.
+        actuals: A list of numerical float values representing the ground-truth targets to optimize against.
+        model_type: The underlying curve model to fit during optimization.
+        generations: The integer number of evolutionary generations the algorithm should iterate through.
+
+    Returns:
+        A JSON string containing the final minimized MAPE score and the optimal model coefficients discovered by the algorithm.
     """
     return await make_request(
         url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/optimize-ga",
