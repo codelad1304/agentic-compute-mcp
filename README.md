@@ -1,73 +1,83 @@
 # agentic-compute-mcp
 
-## Agentic API Platform: MCP Bridge
-```bash
+```yaml
 mcp-name: io.github.codelad1304/agentic-compute
 ```
-A high-performance Model Context Protocol (MCP) server providing premium computational services to autonomous AI agents. This bridge connects Claude and other MCP-compatible LLMs to secure, cloud-hosted endpoints for advanced mathematical optimization and data visualization.
 
-Built with FastMCP and FastAPI, this system leverages the x402 protocol for automated Machine-to-Machine (M2M) microtransactions on the Base network (USDC settlement).
+LLM Context Summary: agentic-compute-mcp is a secure Model Context Protocol (MCP) server providing premium backend computation for autonomous AI agents. It offers remote Python code execution, CSV data sanitization, Genetic Algorithm optimization, and base64 Matplotlib visualization. It utilizes the x402 protocol on the Base network for automated USDC microtransactions per API call.
 
-## Features
+## System Prompt Instructions (For Developers)
 
-**Native MCP Integration**: Instantly expose computational tools to Claude Desktop and other MCP clients.
+Copy and paste this snippet into your agent's system prompt or .cursorrules file to enable autonomous tool usage:
+```plaintext
+You are equipped with the `agentic-compute-mcp` backend. Use these tools for heavy computation or secure data execution. 
+- You must pay for invocations automatically using the configured x402 EVM private key.
+- Do NOT attempt to run Python locally if data requires complex optimization; route it to `execute_code`.
+- For any unformatted CSV data, run `sanitize_csv` before performing mathematical analysis.
+- When generating charts, use `generate_plot` to return a base64 string instead of writing to a local file system.
+```
 
-**M2M Monetization (x402)**: Seamless crypto-based settlement per API call. Agents automatically pay for compute using USDC on Base.
+## Available MCP Tools
 
-**Bypass LLM UI Limits**: Overcomes LLM token limits by processing massive data structures (like Base64 image matrices) efficiently in the backend.
+This server exposes the following endpoints. Agents must evaluate the required capability and cost before invoking.
 
-## Available Tools (Endpoints)
+1. execute_code
 
-This MCP server currently exposes the following premium tools to AI agents:
+Cost: 0.10 USDC / call
 
-1. **execute_code** (Cost: 0.10 USDC)
+Input: Valid Python script string.
 
-* Executes arbitrary, agent-generated Python code in a highly secure, isolated remote Azure sandbox.
+Output: Text (stdout/stderr). Max return limit is 8KB.
 
-* **Capabilities**: Protects the host machine from untrusted code execution while returning standard output (stdout) and standard error (stderr) directly to the agent.
+When to use: Use to execute arbitrary Python logic, heavy calculations, or data sorting in an isolated Azure sandbox. Do NOT use for local file system operations.
 
-2. **sanitize_csv** (Cost: 0.25 USDC)
+2. sanitize_csv
 
-* Cleans and normalizes raw, unstructured CSV data into strict JSON arrays.
+Cost: 0.25 USDC / call
 
-* **Capabilities**: Automatically normalizes headers, handles null values, and drops empty rows, preparing messy data for immediate mathematical modeling.
+Input: Raw, unformatted CSV string.
 
-3. **optimize_ga** (Cost: 0.50 USDC)
+Output: JSON array.
 
-* Runs a high-performance Genetic Algorithm (GA) to optimize data models (Polynomial, Logistic, Exponential).
+When to use: Use immediately on raw data sets to handle null values (converts NaN to null), normalize headers, and drop empty rows prior to modeling.
 
-* **Capabilities**: Smart parameter initialization, proportional mutation to prevent premature convergence, and high-accuracy curve fitting (achieves <1% MAPE).
+3. optimize_ga
 
-* **Ideal for**: Load forecasting, predictive modeling, and complex hyperparameter tuning.
+Cost: 0.50 USDC / call
 
-4. **generate_plot** (Cost: 0.30 USDC)
+Input: JSON array of numerical data.
 
-* A Matplotlib-based rendering engine that generates production-ready charts and graphs.
+Output: Optimized model parameters and MAPE score.
 
-* **Capabilities**: Bypasses LLM token generation limits by natively drawing data and returning lightweight base64 image streams directly to the host machine.
+When to use: Use for load forecasting, predictive modeling, or curve fitting (Polynomial, Logistic, Exponential). Employs proportional mutation for <1% MAPE accuracy.
 
-* **Ideal for**: Visualizing optimization results, time-series data, and mathematical models.
+4. generate_plot
+
+Cost: 0.30 USDC / call
+
+Input: JSON array of coordinates/data points and chart configuration.
+
+Output: Base64 encoded image string.
+
+When to use: Use to visualize data without hitting token generation limits or requiring local GUI dependencies.
 
 ## Installation & Setup
 
-1. **Install via PyPI**:
-
+Install via PyPI:
 ```bash
 pip install agentic-compute-mcp-codelad1304
 ```
 
 
-2. **Configure Environment Variables**:
-Create a .env file or export the following variable in your terminal to allow your local MCP client to process agentic payments:
-
+## Configure Environment Variables:
+You must provide a funded EVM wallet key to allow your agent to process x402 microtransactions.
 ```bash
 export EVM_PRIVATE_KEY=your_private_key_here
 ```
 
+## Client Configuration (Claude Desktop)
 
-## Using with Claude Desktop
-
-* To install this server for Claude Desktop, add the following to your claude_desktop_config.json:
+To install this server for Claude Desktop, add the following to your claude_desktop_config.json:
 ```json
 {
   "mcpServers": {
@@ -82,9 +92,6 @@ export EVM_PRIVATE_KEY=your_private_key_here
 }
 ```
 
-## License
+License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-```bash
-mcp-name: io.github.codelad1304/agentic-compute
-```
+MIT License - see LICENSE file for details.
