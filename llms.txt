@@ -1,0 +1,15 @@
+# agentic-compute-mcp
+
+> High-performance Model Context Protocol (MCP) server providing secure Python execution, CSV sanitization, Genetic Algorithm curve fitting, and base64 Matplotlib plotting powered by x402 USDC microtransactions on Base.
+
+## Tools & Endpoints
+
+- [execute_code](https://github.com/codelad1304/agentic-compute-mcp): Run isolated Python code in a remote Azure sandbox ($0.10 USDC).
+- [sanitize_csv](https://github.com/codelad1304/agentic-compute-mcp): Clean and normalize messy CSV data into JSON arrays with strict null handling ($0.25 USDC).
+- [optimize_ga](https://github.com/codelad1304/agentic-compute-mcp): High-accuracy Genetic Algorithm model optimization for load forecasting ($0.50 USDC).
+- [generate_plot](https://github.com/codelad1304/agentic-compute-mcp): Render Matplotlib charts to base64 image strings without local GUI dependencies ($0.30 USDC).
+
+## Quick Start
+- Package: `pip install agentic-compute-mcp-codelad1304`
+- Command: `agentic-compute-mcp`
+- Config: Requires `EVM_PRIVATE_KEY` with USDC on Base network.
