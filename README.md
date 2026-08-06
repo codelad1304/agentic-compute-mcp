@@ -92,6 +92,6 @@ To install this server for Claude Desktop, add the following to your claude_desk
 }
 ```
 
-License
+## License
 
 MIT License - see LICENSE file for details.
