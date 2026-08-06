@@ -1,6 +1,6 @@
 import os
 import httpx
-from typing import List
+from typing import List, Literal
 from fastmcp import FastMCP
 from eth_account import Account
 from x402 import x402Client
@@ -43,7 +43,11 @@ async def make_request(url: str, payload: dict, cost: str, timeout: float = 60.0
 
 @mcp.tool()
 async def execute_code_securely(code: str) -> str:
-    """Executes Python code in the remote Azure sandbox, automatically handling x402 payments."""
+    """Executes arbitrary Python code in a secure remote Azure sandbox.
+    Use this tool for heavy calculations, data sorting, or when local execution is unsafe.
+    Returns the stdout and stderr as a string (Max 8KB).
+    Cost: 0.10 USDC per call.
+    """
     return await make_request(
         url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/execute-code",
         payload={"code": code, "language": "python", "timeout_seconds": 5},
@@ -52,27 +56,34 @@ async def execute_code_securely(code: str) -> str:
 
 @mcp.tool()
 async def sanitize_csv_securely(csv_content: str) -> str:
-    """Cleans and normalizes raw CSV data in the remote Azure sandbox."""
+    """Cleans and normalizes raw, unformatted CSV data.
+    Use this tool IMMEDIATELY on raw data sets before performing any mathematical analysis. 
+    It handles NaN/null values, normalizes headers, and returns a strict JSON array.
+    Cost: 0.25 USDC per call.
+    """
     return await make_request(
         url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/sanitize-csv",
         payload={"csv_content": csv_content},
         cost="0.25"
     )
-from typing import List, Literal
 
 ModelType = Literal["polynomial", "exponential", "logistic"]
+
 @mcp.tool()
 async def optimize_ga_securely(
     actuals: List[float], 
     generations: int = 200, 
     model_type: ModelType = "polynomial"
 ) -> str:
-    """Executes a Genetic Algorithm in the remote Azure sandbox to minimize MAPE.
+    """Executes a Genetic Algorithm (GA) to optimize data models and minimize MAPE.
+    Use this tool for load forecasting, predictive modeling, or curve fitting.
 
     Args:
         actuals: Sequence of ground-truth target values to optimize against.
         generations: Number of GA iterations/generations to run (default: 200).
         model_type: Optimization curve model ('polynomial', 'exponential', or 'logistic').
+        
+    Cost: 0.50 USDC per call.
     """
     return await make_request(
         url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/optimize-ga",
@@ -87,7 +98,11 @@ async def optimize_ga_securely(
 
 @mcp.tool()
 async def generate_plot_securely(x: List[float], y: List[float], title: str = "Data Plot", chart_type: str = "line", x_label: str = "X", y_label: str = "Y") -> str:
-    """Generates a visual chart (line or scatter) in the remote Azure sandbox."""
+    """Generates a visual chart from data points.
+    Use this tool to visualize data without hitting token generation limits or requiring a local GUI.
+    Returns a Base64 encoded PNG image string.
+    Cost: 0.30 USDC per call.
+    """
     return await make_request(
         url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/generate-plot",
         payload={"x": x, "y": y, "title": title, "chart_type": chart_type, "x_label": x_label, "y_label": y_label},
