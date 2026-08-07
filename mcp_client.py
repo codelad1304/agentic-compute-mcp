@@ -42,7 +42,7 @@ async def make_request(url: str, payload: dict, cost: str, timeout: float = 60.0
             return f"Error connecting to sandbox: {str(e)}"
 
 @mcp.tool()
-async def execute_code_securely(code: str) -> str:
+async def execute_code_securely(code: Annotated[str, Field(description="A complete, self-contained Python 3 code string to execute within the remote sandbox environment.")] ) -> str:
    """
     Executes Python code in a remote, isolated Azure sandbox environment with automatic x402 payment handling.
 
@@ -67,7 +67,7 @@ async def execute_code_securely(code: str) -> str:
     )
 
 @mcp.tool()
-async def sanitize_csv_securely(csv_content: str) -> str:
+async def sanitize_csv_securely(csv_content: Annotated[str, Field(description="The raw, unformatted CSV text string that requires cleaning.")]) -> str:
     """
     Sanitize raw CSV data by cleaning and normalizing it within a secure remote Azure sandbox environment.
 
@@ -94,9 +94,9 @@ ModelType = Literal["polynomial", "exponential", "logistic"]
 
 @mcp.tool()
 async def optimize_ga_securely(
-    actuals: List[float], 
-    generations: int = 200, 
-    model_type: ModelType = "polynomial"
+    actuals: Annotated[List[float], Field(description="A list of numerical float values representing the ground-truth targets to optimize against.")], 
+    generations: Annotated[int, Field(description="The integer number of evolutionary generations the algorithm should iterate through.")] = 200, 
+    model_type: Annotated[ModelType, Field(description="The underlying curve model to fit during optimization.")] = "polynomial"
 ) -> str:
    """
     Executes a Genetic Algorithm in a secure remote Azure sandbox to minimize Mean Absolute Percentage Error (MAPE) against ground-truth target values.
@@ -128,7 +128,14 @@ async def optimize_ga_securely(
     )
 
 @mcp.tool()
-async def generate_plot_securely(x: List[float], y: List[float], title: str = "Data Plot", chart_type: str = "line", x_label: str = "X", y_label: str = "Y") -> str:
+async def generate_plot_securely(
+    x: Annotated[List[float], Field(description="A list of numerical values for the X-axis. Must be the exact same length as y.")],
+    y: Annotated[List[float], Field(description="A list of numerical values for the Y-axis. Must be the exact same length as x.")], 
+    title: Annotated[str, Field(description="The text string to display at the top of the chart.")] = "Data Plot" , 
+    chart_type: str = Annotated[str, Field(description="The visual style of the chart. Must be exactly 'line' or 'scatter'.")] = "line", 
+    x_label: Annotated[str, Field(description="The text string to label the X-axis.")] = "X", 
+    y_label: Annotated[str, Field(description="The text string to label the Y-axis.")] = "Y"
+) -> str:
     """
     Generate line or scatter charts from x and y data in an isolated Azure sandbox, enabling secure remote data visualization for AI agents.
 
