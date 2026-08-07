@@ -1,6 +1,7 @@
 import os
 import httpx
-from typing import List, Literal
+from typing import Annotated, List, Literal
+from pydantic import Field
 from fastmcp import FastMCP
 from eth_account import Account
 from x402 import x402Client
@@ -9,6 +10,7 @@ from x402.mechanisms.evm import EthAccountSigner
 from x402.mechanisms.evm.exact.register import register_exact_evm_client
 
 mcp = FastMCP("Agentic Compute Sandbox API")
+
 
 async def make_request(url: str, payload: dict, cost: str, timeout: float = 60.0) -> str:
     """Helper function to handle x402 crypto payments or surface 402 errors to the agent."""
@@ -41,11 +43,12 @@ async def make_request(url: str, payload: dict, cost: str, timeout: float = 60.0
         except Exception as e:
             return f"Error connecting to sandbox: {str(e)}"
 
+
 @mcp.tool()
 async def execute_code_securely(
-    code: Annotated[str, Field(description="A complete, self-contained Python 3 code string to execute within the remote sandbox environment.")] 
+    code: Annotated[str, Field(description="A complete, self-contained Python 3 code string to execute within the remote sandbox environment.")]
 ) -> str:
-   """
+    """
     Executes Python code in a remote, isolated Azure sandbox environment with automatic x402 payment handling.
 
     Use this tool to safely evaluate Python algorithms, process data structures, perform math calculations, or run custom scripts.
@@ -55,18 +58,13 @@ async def execute_code_securely(
     - Script execution is subject to a 30-second timeout limit; avoid infinite loops or blocking operations.
     - Ensure all required imports are included within the snippet.
     - x402 micropayments (USDC on Base) are automatically verified per execution call.
-
-    Args:
-        code: A complete, self-contained Python 3 code string to execute within the remote sandbox environment.
-
-    Returns:
-        A string containing the captured standard output (stdout), standard error (stderr), and execution response status.
     """
     return await make_request(
         url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/execute-code",
         payload={"code": code, "language": "python", "timeout_seconds": 5},
         cost="0.10"
     )
+
 
 @mcp.tool()
 async def sanitize_csv_securely(
@@ -81,12 +79,6 @@ async def sanitize_csv_securely(
     - `csv_content` must be a plain-text string representation of a CSV.
     - Limit payload size to a maximum of 50,000 rows to prevent sandbox memory limits and payload timeouts.
     - Do not pass binary files or Excel (.xlsx) formats; strictly text-based CSV data.
-
-    Args:
-        csv_content: The raw, unformatted CSV text string that requires cleaning.
-
-    Returns:
-        A string containing the fully cleaned, comma-delimited, and normalized CSV data, ready for immediate parsing.
     """
     return await make_request(
         url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/sanitize-csv",
@@ -94,7 +86,9 @@ async def sanitize_csv_securely(
         cost="0.25"
     )
 
+
 ModelType = Literal["polynomial", "exponential", "logistic"]
+
 
 @mcp.tool()
 async def optimize_ga_securely(
@@ -102,7 +96,7 @@ async def optimize_ga_securely(
     generations: Annotated[int, Field(description="The integer number of evolutionary generations the algorithm should iterate through.")] = 200, 
     model_type: Annotated[ModelType, Field(description="The underlying curve model to fit during optimization.")] = "polynomial"
 ) -> str:
-   """
+    """
     Executes a Genetic Algorithm in a secure remote Azure sandbox to minimize Mean Absolute Percentage Error (MAPE) against ground-truth target values.
     
     Ideal for driving down error metrics in complex time-series predictions, such as electrical load forecasting. 
@@ -111,14 +105,6 @@ async def optimize_ga_securely(
     - `actuals` array size must not exceed 5,000 data points to prevent sandbox execution timeouts.
     - `generations` should be kept under 1,000 iterations for optimal performance vs. compute cost.
     - `model_type` is strictly limited to 'polynomial', 'exponential', or 'logistic'.
-
-    Args:
-        actuals: A list of numerical float values representing the ground-truth targets to optimize against.
-        model_type: The underlying curve model to fit during optimization.
-        generations: The integer number of evolutionary generations the algorithm should iterate through.
-
-    Returns:
-        A JSON string containing the final minimized MAPE score and the optimal model coefficients discovered by the algorithm.
     """
     return await make_request(
         url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/optimize-ga",
@@ -131,12 +117,13 @@ async def optimize_ga_securely(
         timeout=120.0,
     )
 
+
 @mcp.tool()
 async def generate_plot_securely(
-    x: Annotated[List[float], Field(description="A list of numerical values for the X-axis. Must be the exact same length as y.")],
+    x: Annotated[List[float], Field(description="A list of numerical values for the X-axis. Must be the exact same length as y.")], 
     y: Annotated[List[float], Field(description="A list of numerical values for the Y-axis. Must be the exact same length as x.")], 
-    title: Annotated[str, Field(description="The text string to display at the top of the chart.")] = "Data Plot" , 
-    chart_type: str = Annotated[str, Field(description="The visual style of the chart. Must be exactly 'line' or 'scatter'.")] = "line", 
+    title: Annotated[str, Field(description="The text string to display at the top of the chart.")] = "Data Plot", 
+    chart_type: Annotated[str, Field(description="The visual style of the chart. Must be exactly 'line' or 'scatter'.")] = "line", 
     x_label: Annotated[str, Field(description="The text string to label the X-axis.")] = "X", 
     y_label: Annotated[str, Field(description="The text string to label the Y-axis.")] = "Y"
 ) -> str:
@@ -144,17 +131,6 @@ async def generate_plot_securely(
     Generate line or scatter charts from x and y data in an isolated Azure sandbox, enabling secure remote data visualization for AI agents.
 
     Use this tool to visually represent numerical trends. Keep data arrays under 10,000 points to prevent sandbox timeouts.
-
-    Args:
-        x: A list of numerical values for the X-axis. Must be the exact same length as y.
-        y: A list of numerical values for the Y-axis. Must be the exact same length as x.
-        title: The text string to display at the top of the chart.
-        x_label: The text string to label the X-axis.
-        y_label: The text string to label the Y-axis.
-        chart_type: The visual style of the chart. Must be exactly 'line' or 'scatter'.
-
-    Returns:
-        A base64 encoded string of the generated PNG image.
     """
     return await make_request(
         url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/generate-plot",
@@ -162,9 +138,11 @@ async def generate_plot_securely(
         cost="0.30"
     )
 
+
 def main():
     """Entry point for the PyPI package script."""
     mcp.run()
+
 
 if __name__ == "__main__":
     main()
