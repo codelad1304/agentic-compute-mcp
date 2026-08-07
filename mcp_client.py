@@ -42,7 +42,9 @@ async def make_request(url: str, payload: dict, cost: str, timeout: float = 60.0
             return f"Error connecting to sandbox: {str(e)}"
 
 @mcp.tool()
-async def execute_code_securely(code: Annotated[str, Field(description="A complete, self-contained Python 3 code string to execute within the remote sandbox environment.")] ) -> str:
+async def execute_code_securely(
+    code: Annotated[str, Field(description="A complete, self-contained Python 3 code string to execute within the remote sandbox environment.")] 
+) -> str:
    """
     Executes Python code in a remote, isolated Azure sandbox environment with automatic x402 payment handling.
 
@@ -67,7 +69,9 @@ async def execute_code_securely(code: Annotated[str, Field(description="A comple
     )
 
 @mcp.tool()
-async def sanitize_csv_securely(csv_content: Annotated[str, Field(description="The raw, unformatted CSV text string that requires cleaning.")]) -> str:
+async def sanitize_csv_securely(
+    csv_content: Annotated[str, Field(description="The raw, unformatted CSV text string that requires cleaning.")]
+) -> str:
     """
     Sanitize raw CSV data by cleaning and normalizing it within a secure remote Azure sandbox environment.
 
