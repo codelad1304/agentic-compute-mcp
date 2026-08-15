@@ -6,6 +6,10 @@ mcp-name: io.github.codelad1304/agentic-compute
 
 LLM Context Summary: agentic-compute-mcp is a secure Model Context Protocol (MCP) server providing premium backend computation for autonomous AI agents. It offers remote Python code execution, CSV data sanitization, Genetic Algorithm optimization, and base64 Matplotlib visualization. It utilizes the x402 protocol on the Base network for automated USDC microtransactions per API call.
 
+🖼️ Zero-Context Image Rendering
+Handling base64 image strings in LLM context windows is notoriously unreliable and eats up thousands of tokens. agentic-compute-mcp solves this locally.
+When you call generate_plot, the Azure sandbox generates the chart and streams the payload back to the MCP client. The client automatically intercepts the payload, decodes it, and saves it directly to your local machine as optimized_load_trend.png—completely bypassing the LLM context window to prevent token exhaustion and transcription errors.
+
 ## System Prompt Instructions (For Developers)
 
 Copy and paste this snippet into your agent's system prompt or .cursorrules file to enable autonomous tool usage:
@@ -14,7 +18,7 @@ You are equipped with the `agentic-compute-mcp` backend. Use these tools for hea
 - You must pay for invocations automatically using the configured x402 EVM private key.
 - Do NOT attempt to run Python locally if data requires complex optimization; route it to `execute_code`.
 - For any unformatted CSV data, run `sanitize_csv` before performing mathematical analysis.
-- When generating charts, use `generate_plot` to return a base64 string instead of writing to a local file system.
+- When generating charts, use `generate_plot`. The backend will automatically save the chart directly to the local file system as a PNG. Do not attempt to read base64 strings.
 ```
 
 ## Available MCP Tools
@@ -57,7 +61,7 @@ Cost: 0.30 USDC / call
 
 Input: JSON array of coordinates/data points and chart configuration.
 
-Output: Base64 encoded image string.
+Output: Success string (File saved locally).
 
 When to use: Use to visualize data without hitting token generation limits or requiring local GUI dependencies.
 
@@ -82,8 +86,10 @@ To install this server for Claude Desktop, add the following to your claude_desk
 {
   "mcpServers": {
     "agentic-compute": {
-      "command": "agentic-compute-mcp",
-      "args": [],
+      "command": "uvx",
+      "args": [
+        "agentic-compute-mcp-codelad1304"
+      ],
       "env": {
         "EVM_PRIVATE_KEY": "your_private_key_here"
       }
