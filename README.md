@@ -86,10 +86,8 @@ To install this server for Claude Desktop, add the following to your claude_desk
 {
   "mcpServers": {
     "agentic-compute": {
-      "command": "uvx",
-      "args": [
-        "agentic-compute-mcp-codelad1304"
-      ],
+      "command": "agentic-compute-mcp",
+      "args": [],
       "env": {
         "EVM_PRIVATE_KEY": "your_private_key_here"
       }
