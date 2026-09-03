@@ -12,7 +12,7 @@ Every successful and failed transaction generates an immutable AUDIT_RECORD loca
 
 ## 🏗️ Architecture & File Structure
 (Note: Upload your diagram to the /assets folder)
-''' plaintext
+```plaintext
 agentic-compute-mcp/
 ├── README.md                      # Documentation & Setup
 ├── .env.example                   # Environment variable template
@@ -22,7 +22,7 @@ agentic-compute-mcp/
 ├── pyproject.toml                 # MCP package configurations
 ├── requirements.txt               # Dependencies (FastAPI, azure-identity, uvicorn, etc.)
 └── /assets                        # Presentation visuals and screenshots
-'''
+```
 
 ## 🖼️ Feature Highlight: Zero-Context Image Rendering
 Handling base64 image strings in LLM context windows is notoriously unreliable and eats up thousands of tokens. agentic-compute-mcp solves this locally.
@@ -36,24 +36,24 @@ You need to run two components: the Backend Server and the MCP Client.
 The backend handles the x402 payment gate and routes code to Azure.
 
 ## Install dependencies:
-'''bash
+```bash
 pip install -r requirements.txt'
-'''   
+```   
 
 Create a .env file based on .env.example and add your configurations:
 Code snippet
-'''bash
+```bash
 AZURE_POOL_ENDPOINT="https://<YOUR-POOL-NAME>.azurecontainerapps.io"
 MY_WALLET_ADDRESS="0xYourActualWalletAddress"
-'''   
+```   
 ## Run the FastAPI server locally:
-'''bash
+```bash
 uvicorn main:app --host 127.0.0.1 --port 8000 --reload'
-'''   
+```   
 
 2. MCP Client (mcp_client.py) Setup
 To install this server for Claude Desktop, add the following to your claude_desktop_config.json:
-'''json
+```json
 {
   "mcpServers": {
     "agentic-compute": {
@@ -65,7 +65,7 @@ To install this server for Claude Desktop, add the following to your claude_desk
     }
   }
 }
-'''
+```
 Note: Make sure to replace the path and provide a funded EVM wallet key to allow Claude to process x402 microtransactions.
 
 ## 🧰 Available MCP Tools
@@ -109,13 +109,13 @@ When to use: Visualize data without hitting token generation limits or requiring
 
 ## 🤖 System Prompt Instructions (For Developers)
 Copy and paste this snippet into your agent's system prompt or .cursorrules file to enable autonomous tool usage:
-'''plaintext
+```plaintext
 You are equipped with the `agentic-compute-mcp` backend. Use these tools for heavy computation or secure data execution. 
 - You must pay for invocations automatically using the configured x402 EVM private key.
 - Do NOT attempt to run Python locally if data requires complex optimization; route it to `execute_code`.
 - For any unformatted CSV data, run `sanitize_csv` before performing mathematical analysis.
 - When generating charts, use `generate_plot`. The backend will automatically save the chart directly to the local file system as a PNG. Do not attempt to read base64 strings.'
-'''
+```
 
 ## License
 MIT License - see LICENSE file for details.
