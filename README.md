@@ -1,11 +1,14 @@
 ## 🏆 Track 01 Hackathon Criteria Addressed
 This project strictly adheres to the Razorpay Track 01 requirements for AI-agent storefronts:
 
-## 🔒 Gated (Transactable End-to-End): AI Agents are charged per API call. If the wallet is empty, the FastAPI middleware intercepts the request and throws a graceful 402 Payment Required. If funded, it verifies the crypto token and settles USDC via the Base network.
+## 🔒 Gated (Transactable End-to-End): 
+AI Agents are charged per API call. If the wallet is empty, the FastAPI middleware intercepts the request and throws a graceful 402 Payment Required. If funded, it verifies the crypto token and settles USDC via the Base network.
 
-## ⏱️ Bounded (Zero Resource Exhaustion): All sandboxes run inside Azure Container Apps Dynamic Sessions. Code execution is strictly bounded to a 15-second maximum timeout limit enforced by Pydantic models. Malicious memory-clogging scripts are instantly killed.
+## ⏱️ Bounded (Zero Resource Exhaustion): 
+All sandboxes run inside Azure Container Apps Dynamic Sessions. Code execution is strictly bounded to a 15-second maximum timeout limit enforced by Pydantic models. Malicious memory-clogging scripts are instantly killed.
 
-📊 Explainable (Audit Trail): Every successful and failed transaction generates an immutable AUDIT_RECORD locally, detailing the exact price_usdc, duration_ms, and execution exit code.
+## 📊 Explainable (Audit Trail): 
+Every successful and failed transaction generates an immutable AUDIT_RECORD locally, detailing the exact price_usdc, duration_ms, and execution exit code.
 
 ## 🏗️ Architecture & File Structure
 (Note: Upload your diagram to the /assets folder)
@@ -14,8 +17,9 @@ Plaintext'
 agentic-compute-mcp/
 ├── README.md                      # Documentation & Setup
 ├── .env.example                   # Environment variable template
-├── main.py                        # The Backend: FastAPI, x402 Gate, and Azure Sandbox router
+├── main.py                        # The Backend: FastAPI, x402 Gate, and Azure routing
 ├── mcp_client.py                  # The Bridge: Claude Desktop tool definitions
+├── sandbox.py                     # Core Azure Dynamic Sessions execution logic
 ├── pyproject.toml                 # MCP package configurations
 ├── requirements.txt               # Dependencies (FastAPI, azure-identity, uvicorn, etc.)
 └── /assets                        # Presentation visuals and screenshots'
