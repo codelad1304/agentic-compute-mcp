@@ -48,7 +48,7 @@ MY_WALLET_ADDRESS="0xYourActualWalletAddress"
 ```   
 ## Run the FastAPI server locally:
 ```bash
-uvicorn main:app --host 127.0.0.1 --port 8000 --reload'
+uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 ```   
 
 2. MCP Client (mcp_client.py) Setup
