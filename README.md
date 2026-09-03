@@ -11,7 +11,37 @@ All sandboxes run inside Azure Container Apps Dynamic Sessions. Code execution i
 Every successful and failed transaction generates an immutable AUDIT_RECORD locally, detailing the exact price_usdc, duration_ms, and execution exit code.
 
 ## 🏗️ Architecture & File Structure
-(Note: Upload your diagram to the /assets folder)
+## 🏗️ Architecture & File Structure
+
+```mermaid
+graph TD
+    A[Claude Desktop App<br>Agent Client] -->|Tool Invocation| B{FastAPI x402 Middleware}
+    
+    subgraph The Payment Gate
+    B -->|Empty Wallet| C[HTTP 402 Payment Required<br>Graceful Failure]
+    B -->|Funded Wallet| D[Settle USDC via Base Network]
+    end
+    
+    C -.->|Agent Retries| A
+    D --> E[Azure Container Apps<br>Dynamic Session Pool]
+    
+    subgraph Bounded Cloud Execution
+    E --> F[15s Python Execution Timeout]
+    F --> G[Generate Text / Base64 Image]
+    end
+    
+    G -->|Stream Payload| H[mcp_client.py]
+    
+    subgraph Local System (Zero-Context Rendering)
+    H -->|JSON Response| A
+    H -->|Image Payload| I[(Save to Local PNG)]
+    end
+    
+    classDef gate fill:#ffebee,stroke:#c62828,stroke-width:2px;
+    classDef success fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+    class C gate;
+    class D success;
+```
 ```plaintext
 agentic-compute-mcp/
 ├── README.md                      # Documentation & Setup
