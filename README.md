@@ -20,6 +20,8 @@ graph TD
     subgraph Gate ["The Payment Gate"]
     B -->|Empty Wallet| C[HTTP 402 Payment Required<br>Graceful Failure]
     B -->|Funded Wallet| D[Settle USDC via Base Network]
+    C -.->|Log| Z[(Local Audit Trail)]
+    D -.->|Log| Z
     end
     
     C -.->|Agent Retries| A
