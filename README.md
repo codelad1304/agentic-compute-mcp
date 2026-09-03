@@ -13,7 +13,7 @@ Every successful and failed transaction generates an immutable AUDIT_RECORD loca
 ## 🏗️ Architecture & File Structure
 (Note: Upload your diagram to the /assets folder)
 
-''' Plaintext
+''' plaintext
 agentic-compute-mcp/
 ├── README.md                      # Documentation & Setup
 ├── .env.example                   # Environment variable template
@@ -38,26 +38,26 @@ The backend handles the x402 payment gate and routes code to Azure.
 
 ## Install dependencies:
 
-'''Bash
+'''bash
    pip install -r requirements.txt'
 '''   
 
 Create a .env file based on .env.example and add your configurations:
-
-'''Code snippet
+Code snippet
+'''bash
    AZURE_POOL_ENDPOINT="https://<YOUR-POOL-NAME>.azurecontainerapps.io"
    MY_WALLET_ADDRESS="0xYourActualWalletAddress"
 '''   
 ## Run the FastAPI server locally:
 
-'''Bash
+'''bash
    uvicorn main:app --host 127.0.0.1 --port 8000 --reload'
 '''   
 
 2. MCP Client (mcp_client.py) Setup
 To install this server for Claude Desktop, add the following to your claude_desktop_config.json:
 
-'''JSON
+'''json
 {
   "mcpServers": {
     "agentic-compute": {
@@ -114,7 +114,7 @@ When to use: Visualize data without hitting token generation limits or requiring
 ## 🤖 System Prompt Instructions (For Developers)
 Copy and paste this snippet into your agent's system prompt or .cursorrules file to enable autonomous tool usage:
 
-'''Plaintext
+'''plaintext
 You are equipped with the `agentic-compute-mcp` backend. Use these tools for heavy computation or secure data execution. 
 - You must pay for invocations automatically using the configured x402 EVM private key.
 - Do NOT attempt to run Python locally if data requires complex optimization; route it to `execute_code`.
