@@ -124,4 +124,4 @@ You are equipped with the `agentic-compute-mcp` backend. Use these tools for hea
 
 ## License
 MIT License - see LICENSE file for details.
-```eof
+
