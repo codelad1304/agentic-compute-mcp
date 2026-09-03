@@ -13,7 +13,8 @@ Every successful and failed transaction generates an immutable AUDIT_RECORD loca
 ## 🏗️ Architecture & File Structure
 (Note: Upload your diagram to the /assets folder)
 
-Plaintext'
+Plaintext 
+'
 agentic-compute-mcp/
 ├── README.md                      # Documentation & Setup
 ├── .env.example                   # Environment variable template
