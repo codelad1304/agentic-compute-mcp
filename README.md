@@ -18,17 +18,17 @@ graph TD
     A[Claude Desktop App<br>Agent Client] -->|Tool Invocation| B{FastAPI x402 Middleware}
     
     subgraph Gate ["The Payment Gate"]
-        B -->|Empty Wallet| C[HTTP 402 Payment Required<br>Graceful Failure]
         B -->|Funded Wallet| D[Settle USDC via Base Network]
-        C -.->|Log| Z[(Local Audit Trail)]
-        D -.->|Log| Z
+        B -->|Empty Wallet| C[HTTP 402 Payment Required<br>Graceful Failure]
+        D -.->|Log| Z[(Local Audit Trail)]
+        C -.->|Log| Z
     end
     
     %% Invisible structural link to force vertical placement
     Z ~~~ E
     
-    C -.->|Agent Retries| A
     D --> E[Azure Container Apps<br>Dynamic Session Pool]
+    C -.->|Agent Retries| A
     
     subgraph Cloud ["Bounded Cloud Execution"]
         E --> F[15s Python Execution Timeout]
