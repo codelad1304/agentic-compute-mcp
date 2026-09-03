@@ -11,7 +11,6 @@ All sandboxes run inside Azure Container Apps Dynamic Sessions. Code execution i
 Every successful and failed transaction generates an immutable AUDIT_RECORD locally, detailing the exact price_usdc, duration_ms, and execution exit code.
 
 ## 🏗️ Architecture & File Structure
-## 🏗️ Architecture & File Structure
 
 ```mermaid
 graph TD
