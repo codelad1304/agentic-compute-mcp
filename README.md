@@ -37,11 +37,11 @@ The backend handles the x402 payment gate and routes code to Azure.
 
 ## Install dependencies:
 ```bash
-pip install -r requirements.txt'
+pip install -r requirements.txt
 ```   
 
 Create a .env file based on .env.example and add your configurations:
-Code snippet
+Code snippet:
 ```bash
 AZURE_POOL_ENDPOINT="https://<YOUR-POOL-NAME>.azurecontainerapps.io"
 MY_WALLET_ADDRESS="0xYourActualWalletAddress"
@@ -69,43 +69,17 @@ To install this server for Claude Desktop, add the following to your claude_desk
 Note: Make sure to replace the path and provide a funded EVM wallet key to allow Claude to process x402 microtransactions.
 
 ## 🧰 Available MCP Tools
+
 This server exposes the following endpoints. Agents must evaluate the required capability and cost before invoking.
 
-1. execute_code
-Cost: 0.10 USDC / call
+| Tool | Cost (USDC) | Input | Output | When to use |
+| :--- | :--- | :--- | :--- | :--- |
+| **`execute_code`** | 0.10 | Valid Python script string. | Text (stdout/stderr). Max return limit 8KB. | Execute arbitrary Python logic, heavy calculations, or data sorting in an isolated Azure sandbox. Do NOT use for local FS operations. |
+| **`sanitize_csv`** | 0.25 | Raw, unformatted CSV string. | JSON array. | Handle null values (converts NaN to null), normalize headers, and drop empty rows prior to modeling. |
+| **`optimize_ga`** | 0.50 | JSON array of numerical data. | Optimized model parameters and MAPE score. | Load forecasting, predictive modeling, or curve fitting. Employs proportional mutation for <1% MAPE accuracy. |
+| **`generate_plot`** | 0.30 | JSON array of coordinates and chart config. | Success string (File saved locally). | Visualize data without hitting token generation limits or requiring local GUI dependencies. |
 
-Input: Valid Python script string.
 
-Output: Text (stdout/stderr). Max return limit is 8KB.
-
-When to use: Execute arbitrary Python logic, heavy calculations, or data sorting in an isolated Azure sandbox. Do NOT use for local file system operations.
-
-2. sanitize_csv
-Cost: 0.25 USDC / call
-
-Input: Raw, unformatted CSV string.
-
-Output: JSON array.
-
-When to use: Handle null values (converts NaN to null), normalize headers, and drop empty rows prior to modeling.
-
-3. optimize_ga
-Cost: 0.50 USDC / call
-
-Input: JSON array of numerical data.
-
-Output: Optimized model parameters and MAPE score.
-
-When to use: Load forecasting, predictive modeling, or curve fitting (Polynomial, Logistic, Exponential). Employs proportional mutation for <1% MAPE accuracy.
-
-4. generate_plot
-Cost: 0.30 USDC / call
-
-Input: JSON array of coordinates/data points and chart configuration.
-
-Output: Success string (File saved locally).
-
-When to use: Visualize data without hitting token generation limits or requiring local GUI dependencies.
 
 ## 🤖 System Prompt Instructions (For Developers)
 Copy and paste this snippet into your agent's system prompt or .cursorrules file to enable autonomous tool usage:
