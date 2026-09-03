@@ -17,7 +17,7 @@ Every successful and failed transaction generates an immutable AUDIT_RECORD loca
 graph TD
     A[Claude Desktop App<br>Agent Client] -->|Tool Invocation| B{FastAPI x402 Middleware}
     
-    subgraph The Payment Gate
+    subgraph Gate ["The Payment Gate"]
     B -->|Empty Wallet| C[HTTP 402 Payment Required<br>Graceful Failure]
     B -->|Funded Wallet| D[Settle USDC via Base Network]
     end
@@ -25,14 +25,14 @@ graph TD
     C -.->|Agent Retries| A
     D --> E[Azure Container Apps<br>Dynamic Session Pool]
     
-    subgraph Bounded Cloud Execution
+    subgraph Cloud ["Bounded Cloud Execution"]
     E --> F[15s Python Execution Timeout]
     F --> G[Generate Text / Base64 Image]
     end
     
     G -->|Stream Payload| H[mcp_client.py]
     
-    subgraph Local System (Zero-Context Rendering)
+    subgraph Local ["Local System (Zero-Context Rendering)"]
     H -->|JSON Response| A
     H -->|Image Payload| I[(Save to Local PNG)]
     end
