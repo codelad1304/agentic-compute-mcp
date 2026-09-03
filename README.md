@@ -18,25 +18,28 @@ graph TD
     A[Claude Desktop App<br>Agent Client] -->|Tool Invocation| B{FastAPI x402 Middleware}
     
     subgraph Gate ["The Payment Gate"]
-    B -->|Empty Wallet| C[HTTP 402 Payment Required<br>Graceful Failure]
-    B -->|Funded Wallet| D[Settle USDC via Base Network]
-    C -.->|Log| Z[(Local Audit Trail)]
-    D -.->|Log| Z
+        B -->|Empty Wallet| C[HTTP 402 Payment Required<br>Graceful Failure]
+        B -->|Funded Wallet| D[Settle USDC via Base Network]
+        C -.->|Log| Z[(Local Audit Trail)]
+        D -.->|Log| Z
     end
+    
+    %% Invisible structural link to force vertical placement
+    Z ~~~ E
     
     C -.->|Agent Retries| A
     D --> E[Azure Container Apps<br>Dynamic Session Pool]
     
     subgraph Cloud ["Bounded Cloud Execution"]
-    E --> F[15s Python Execution Timeout]
-    F --> G[Generate Text / Base64 Image]
+        E --> F[15s Python Execution Timeout]
+        F --> G[Generate Text / Base64 Image]
     end
     
     G -->|Stream Payload| H[mcp_client.py]
     
     subgraph Local ["Local System (Zero-Context Rendering)"]
-    H -->|JSON Response| A
-    H -->|Image Payload| I[(Save to Local PNG)]
+        H -->|JSON Response| A
+        H -->|Image Payload| I[(Save to Local PNG)]
     end
     
     classDef gate fill:#ffebee,stroke:#c62828,stroke-width:2px;
