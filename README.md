@@ -39,19 +39,19 @@ The backend handles the x402 payment gate and routes code to Azure.
 ## Install dependencies:
 
 '''bash
-   pip install -r requirements.txt'
+pip install -r requirements.txt'
 '''   
 
 Create a .env file based on .env.example and add your configurations:
 Code snippet
 '''bash
-   AZURE_POOL_ENDPOINT="https://<YOUR-POOL-NAME>.azurecontainerapps.io"
-   MY_WALLET_ADDRESS="0xYourActualWalletAddress"
+AZURE_POOL_ENDPOINT="https://<YOUR-POOL-NAME>.azurecontainerapps.io"
+MY_WALLET_ADDRESS="0xYourActualWalletAddress"
 '''   
 ## Run the FastAPI server locally:
 
 '''bash
-   uvicorn main:app --host 127.0.0.1 --port 8000 --reload'
+uvicorn main:app --host 127.0.0.1 --port 8000 --reload'
 '''   
 
 2. MCP Client (mcp_client.py) Setup
