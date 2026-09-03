@@ -54,9 +54,11 @@ agentic-compute-mcp/
 ├── main.py                        # The Backend: FastAPI, x402 Gate, and Azure routing
 ├── mcp_client.py                  # The Bridge: Claude Desktop tool definitions
 ├── sandbox.py                     # Core Azure Dynamic Sessions execution logic
-├── pyproject.toml                 # MCP package configurations
+├── pyproject.toml                 # Python package and dependency configurations
 ├── requirements.txt               # Dependencies (FastAPI, azure-identity, uvicorn, etc.)
-└── /assets                        # Presentation visuals and screenshots
+├── server.json                    # MCP server configuration details
+├── glama.json                     # Glama registry metadata for the AI agent storefront
+└── llms.txt                       # Context file for LLM integration
 ```
 
 ## 🖼️ Feature Highlight: Zero-Context Image Rendering
