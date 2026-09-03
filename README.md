@@ -29,6 +29,14 @@ Handling base64 image strings in LLM context windows is notoriously unreliable a
 
 When Claude calls generate_plot, the Azure sandbox generates the chart and streams the payload back to the MCP client. The client automatically intercepts the payload, decodes it, and saves it directly to your local machine as optimized_load_trend.png—completely bypassing the LLM context window to prevent token exhaustion.
 
+
+## 🌙 Developer Note: The 2 AM Story & Graceful Failures
+
+**The Graceful Failure:** To meet the Track 01 requirement for agent-to-agent commerce, the backend is designed to fail gracefully. If an agent attempts to execute code without funding, the FastAPI middleware intercepts the payload and throws a clean `402 Payment Required` error. This prevents compute theft and allows the agent to automatically reroute to the `/verify` and `/settle` endpoints.
+
+**The 2 AM Debug:** We built a strict 5-second Pydantic execution bound to prevent malicious resource exhaustion. But at 2 AM, our trivial Python test scripts kept timing out. We realized that to guarantee security, Azure Dynamic Sessions provisions a 100% fresh, isolated microVM for *every* request—resulting in an 8-second cold-start latency. By bumping the MCP client boundary to 15 seconds, we allowed the sandbox to boot, run the code, and return the result in exactly 5.7 seconds, proving our boundaries worked without suffocating the cloud infrastructure.
+
+
 ## ⚙️ Installation & Setup
 You need to run two components: the Backend Server and the MCP Client.
 
@@ -88,7 +96,7 @@ You are equipped with the `agentic-compute-mcp` backend. Use these tools for hea
 - You must pay for invocations automatically using the configured x402 EVM private key.
 - Do NOT attempt to run Python locally if data requires complex optimization; route it to `execute_code`.
 - For any unformatted CSV data, run `sanitize_csv` before performing mathematical analysis.
-- When generating charts, use `generate_plot`. The backend will automatically save the chart directly to the local file system as a PNG. Do not attempt to read base64 strings.'
+- When generating charts, use `generate_plot`. The backend will automatically save the chart directly to the local file system as a PNG. Do not attempt to read base64 strings.
 ```
 
 ## License
