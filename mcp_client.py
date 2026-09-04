@@ -12,6 +12,7 @@ from x402.mechanisms.evm import EthAccountSigner
 from x402.mechanisms.evm.exact.register import register_exact_evm_client
 
 mcp = FastMCP("Agentic Compute Sandbox API")
+BASE_URL = os.getenv("SANDBOX_API_URL", "https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io")
 
 
 async def make_request(url: str, payload: dict, cost: str, timeout: float = 60.0) -> str:
@@ -62,8 +63,8 @@ async def execute_code_securely(
     - x402 micropayments (USDC on Base) are automatically verified per execution call.
     """
     return await make_request(
-        url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/execute-code",
-        payload={"code": code, "language": "python", "timeout_seconds": 5},
+        url=f"{BASE_URL}/execute-code",
+        payload={"code": code, "language": "python", "timeout_seconds": 15},
         cost="0.10"
     )
 
@@ -83,7 +84,7 @@ async def sanitize_csv_securely(
     - Do not pass binary files or Excel (.xlsx) formats; strictly text-based CSV data.
     """
     return await make_request(
-        url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/sanitize-csv",
+        url=f"{BASE_URL}/sanitize-csv",
         payload={"csv_content": csv_content},
         cost="0.25"
     )
@@ -109,7 +110,7 @@ async def optimize_ga_securely(
     - `model_type` is strictly limited to 'polynomial', 'exponential', or 'logistic'.
     """
     return await make_request(
-        url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/optimize-ga",
+        url=f"{BASE_URL}/optimize-ga",
         payload={
             "actuals": actuals,
             "generations": generations,
@@ -137,7 +138,7 @@ async def generate_plot_securely(
     Use this tool to visually represent numerical trends. Keep data arrays under 10,000 points to prevent sandbox timeouts.
     """
     raw_response = await make_request(
-        url="https://sandbox-api.yellowwater-3c070cec.centralindia.azurecontainerapps.io/generate-plot",
+        url=f"{BASE_URL}/generate-plot",
         payload={"x": x, "y": y, "title": title, "chart_type": chart_type, "x_label": x_label, "y_label": y_label},
         cost="0.30"
     )
