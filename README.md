@@ -85,6 +85,7 @@ pip install -r requirements.txt
 ```   
 
 Create a .env file based on .env.example and add your configurations:
+
 Code snippet:
 ```bash
 AZURE_POOL_ENDPOINT="https://<YOUR-POOL-NAME>.azurecontainerapps.io"
